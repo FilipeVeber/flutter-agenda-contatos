@@ -66,7 +66,7 @@ class ContactHelper {
   Future<int> deleteContact(int id) async {
     Database dbContact = await db;
     return await dbContact
-        .delete(CONTACT_TABLE, where: "$ID_COLUMN = $id", whereArgs: [id]);
+        .delete(CONTACT_TABLE, where: "$ID_COLUMN = ?", whereArgs: [id]);
   }
 
   Future<int> updateContact(Contact contact) async {
