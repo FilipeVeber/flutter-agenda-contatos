@@ -68,6 +68,12 @@ class ContactHelper {
     return await dbContact
         .delete(CONTACT_TABLE, where: "$ID_COLUMN = $id", whereArgs: [id]);
   }
+
+  Future<int> updateContact(Contact contact) async {
+    Database dbContact = await db;
+    return await dbContact.update(CONTACT_TABLE, contact.toMap(),
+        where: "$ID_COLUMN = ?", whereArgs: [contact.id]);
+  }
 }
 
 class Contact {
