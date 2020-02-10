@@ -43,7 +43,7 @@ class ContactHelper {
     return contact;
   }
 
-  Future<Contact> getCOntact(int id) async {
+  Future<Contact> getContact(int id) async {
     Database dbContact = await db;
     List<Map> maps = await dbContact.query(CONTACT_TABLE,
         columns: [
@@ -61,6 +61,12 @@ class ContactHelper {
     } else {
       return null;
     }
+  }
+
+  Future<int> deleteContact(int id) async {
+    Database dbContact = await db;
+    return await dbContact
+        .delete(CONTACT_TABLE, where: "$ID_COLUMN = $id", whereArgs: [id]);
   }
 }
 
