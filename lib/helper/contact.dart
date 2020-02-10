@@ -1,10 +1,42 @@
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+final String CONTACT_TABLE = "contact_table";
 final String ID_COLUMN = "id_column";
 final String NAME_COLUMN = "name_column";
 final String EMAIL_COLUMN = "email_column";
 final String PHONE_COLUMN = "phone_column";
 final String IMAGE_COLUMN = "image_column";
 
-class ContactHelper {}
+class ContactHelper {
+  static final ContactHelper _instance = ContactHelper.internal();
+
+  factory ContactHelper() => _instance;
+
+  ContactHelper.internal();
+
+  Database _db;
+
+  Future<Database> get db async {
+    if (_db != null) {
+      return _db;
+    } else {
+      _db = await initDb();
+      return _db;
+    }
+  }
+
+  Future<Database> initDb() async {
+    final databasesPath = await getDatabasesPath();
+    final path = join(databasesPath, "contact.db");
+
+    openDatabase(path, version: 1,
+        onCreate: (Database db, int newerVersion) async {
+      await db.execute(
+          "CREATE TABLE $CONTACT_TABLE ($ID_COLUMN INTEGER PRIMARY KEY, $NAME_COLUMN TEXT, $EMAIL_COLUMN TEXT, $PHONE_COLUMN TEXT, $IMAGE_COLUMN TEXT)");
+    });
+  }
+}
 
 class Contact {
   int id;
