@@ -85,6 +85,11 @@ class ContactHelper {
 
     listContact;
   }
+
+  Future close() async {
+    Database dbContact = await db;
+    dbContact.close();
+  }
 }
 
 class Contact {
