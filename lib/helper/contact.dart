@@ -83,7 +83,7 @@ class ContactHelper {
       listContact.add(Contact.fromMap(map));
     }
 
-    listContact;
+    return listContact;
   }
 
   Future close() async {
