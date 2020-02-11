@@ -41,13 +41,15 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {},
       ),
       body: ListView.builder(
-          itemCount: contacts.length,
           padding: EdgeInsets.all(10),
+          itemCount: contacts.length,
           itemBuilder: _buildContactCard),
     );
   }
 
   Widget _buildContactCard(BuildContext context, int index) {
+    var _contact = contacts[index];
+
     return GestureDetector(
       child: Card(
         child: Padding(
@@ -60,8 +62,8 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: contacts[index].image != null
-                            ? FileImage(File(contacts[index].image))
+                        image: _contact.image != null
+                            ? FileImage(File(_contact.image))
                             : AssetImage("images/person.png"))),
               ),
               Padding(
@@ -71,15 +73,15 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    contacts[index].name ?? "",
+                    _contact.name ?? "",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    contacts[index].email ?? "",
+                    _contact.email ?? "",
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    contacts[index].phone ?? "",
+                    _contact.phone ?? "",
                     style: TextStyle(fontSize: 18),
                   ),
                 ],
