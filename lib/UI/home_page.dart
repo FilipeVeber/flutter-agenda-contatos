@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_agenda_contatos/UI/contact_page.dart';
 import 'package:flutter_agenda_contatos/helper/contact.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,7 +39,9 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
         ),
         backgroundColor: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          _showContactPage();
+        },
       ),
       body: ListView.builder(
           padding: EdgeInsets.all(10),
@@ -90,6 +93,18 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      onTap: () {
+        _showContactPage(contact: _contact);
+      },
     );
+  }
+
+  void _showContactPage({Contact contact}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ContactPage(
+                  contact: contact,
+                )));
   }
 }
