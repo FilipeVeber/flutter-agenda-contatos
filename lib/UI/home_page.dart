@@ -24,26 +24,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Contatos"),
-        centerTitle: true,
-        backgroundColor: Colors.red,
-      ),
-      backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
+        appBar: AppBar(
+          title: Text("Contatos"),
+          centerTitle: true,
+          backgroundColor: Colors.red,
         ),
-        backgroundColor: Colors.red,
-        onPressed: () {
-          _showContactPage();
-        },
-      ),
-      body: ListView.builder(
-          padding: EdgeInsets.all(10),
-          itemCount: contacts.length,
-          itemBuilder: _buildContactCard),
-    );
+        backgroundColor: Colors.white,
+        body: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: contacts.length,
+            itemBuilder: _buildContactCard),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+          ),
+          backgroundColor: Colors.red,
+          onPressed: () {
+            _showContactPage();
+          },
+        ));
   }
 
   Widget _buildContactCard(BuildContext context, int index) {
@@ -90,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       onTap: () {
-        _showContactPage(contact: _contact);
+        _showOptions(context, index);
       },
     );
   }
@@ -119,5 +118,63 @@ class _HomePageState extends State<HomePage> {
         contacts = list;
       });
     });
+  }
+
+  void _showOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+              onClosing: () {},
+              builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: FlatButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Ligar",
+                            style: TextStyle(color: Colors.red, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: FlatButton(
+                          child: Text(
+                            "Editar",
+                            style: TextStyle(color: Colors.red, fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _showContactPage(contact: contacts[index]);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: FlatButton(
+                          child: Text(
+                            "Excluir",
+                            style: TextStyle(color: Colors.red, fontSize: 20),
+                          ),
+                          onPressed: () {
+                            helper.deleteContact(contacts[index].id);
+                            setState(() {
+                              contacts.removeAt(index);
+                              Navigator.pop(context);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        });
   }
 }
