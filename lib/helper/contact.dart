@@ -30,7 +30,7 @@ class ContactHelper {
     final databasesPath = await getDatabasesPath();
     final path = join(databasesPath, "contact.db");
 
-    openDatabase(path, version: 1,
+    return await openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
           "CREATE TABLE $CONTACT_TABLE ($ID_COLUMN INTEGER PRIMARY KEY, $NAME_COLUMN TEXT, $EMAIL_COLUMN TEXT, $PHONE_COLUMN TEXT, $IMAGE_COLUMN TEXT)");
@@ -98,6 +98,8 @@ class Contact {
   String email;
   String phone;
   String image;
+
+  Contact();
 
   Contact.fromMap(Map map) {
     id = map[ID_COLUMN];
